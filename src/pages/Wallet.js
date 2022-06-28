@@ -97,12 +97,12 @@ render() {
       <h4 data-testid="total-field">
         {total}
       </h4>
+      <h4 data-testid="header-currency-field">BRL</h4>
       <label htmlFor="Moeda">
         Moeda:
         <select
           name="currency"
           id="Moeda"
-          data-testid="header-currency-field"
           onChange={ this.handleChange }
         >
           {
