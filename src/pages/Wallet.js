@@ -201,7 +201,6 @@ render() {
               />
             ))
           }
-
         </tbody>
       </table>
     </div>

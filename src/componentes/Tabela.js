@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 class Tabela extends React.Component {
     state = {
-      convertido: 0,
       moedas: '',
       cambio: 0,
       tipo: 'Real',
@@ -15,23 +14,20 @@ class Tabela extends React.Component {
 
 handleValor = () => {
   const { info } = this.props;
-  const { currency, exchangeRates, value } = info;
+  const { currency, exchangeRates } = info;
   const trocar = parseFloat(exchangeRates[currency].ask);
-  const conversão = trocar + parseFloat(value);
-  const ajeitarTrocar = trocar.toFixed(2);
-  const ajeitarConversao = conversão.toFixed(2);
+  // const ajeitarTrocar = trocar;
   const moeda = exchangeRates[currency].name;
   this.setState({
     moedas: moeda,
-    cambio: ajeitarTrocar,
-    convertido: ajeitarConversao,
+    cambio: trocar,
   });
 }
 
 render() {
   const { info } = this.props;
   const { description, tag, method, value } = info;
-  const { convertido, moedas, cambio, tipo } = this.state;
+  const { moedas, cambio, tipo } = this.state;
   return (
     <tr>
       <td>{ description }</td>
@@ -40,7 +36,7 @@ render() {
       <td>{ Number(value).toFixed(2) }</td>
       <td>{ moedas }</td>
       <td>{ Number(cambio).toFixed(2) }</td>
-      <td>{ Number(convertido).toFixed(2) }</td>
+      <td>{ (Number(value) * Number(cambio)).toFixed(2) }</td>
       <td>{ tipo }</td>
       <td>
         <button type="button">Editar</button>

@@ -35,6 +35,7 @@ class Login extends React.Component {
     const { changeGlobal, history } = this.props;
     const { email } = this.state;
     changeGlobal(email);
+    console.log(this.props);
     history.push('/carteira');
   }
 
