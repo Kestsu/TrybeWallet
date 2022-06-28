@@ -15,7 +15,7 @@ class Wallet extends React.Component {
     tag: 'Alimentação',
     total: 0,
     despesas: [],
-    button: true,
+    // button: true,
   }
 
   componentDidMount() {
@@ -70,24 +70,24 @@ handleChange = ({ target }) => {
   const { value, name } = target;
   this.setState({
     [name]: value,
-  }, () => this.handleButton());
-}
-
-handleButton = () => {
-  const { description, value } = this.state;
-  console.log(description.length);
-  console.log(parseFloat(value));
-  if (description.length !== 0 && value !== '0') {
-    this.setState({
-      button: false,
-    });
-  } this.setState({
-    button: true,
   });
 }
 
+// handleButton = () => {
+//   const { description, value } = this.state;
+//   console.log(description.length);
+//   console.log(parseFloat(value));
+//   if (description.length !== 0 && value !== '0') {
+//     this.setState({
+//       button: false,
+//     });
+//   } this.setState({
+//     button: true,
+//   });
+// }
+
 render() {
-  const { total, value, description, method, tag, button } = this.state;
+  const { total, value, description, method, tag } = this.state;
   const { currencies, email, expenses } = this.props;
   return (
     <div>
@@ -172,7 +172,7 @@ render() {
       <br />
       <button
         type="button"
-        disabled={ button }
+        // disabled={ button }
         onClick={ this.handleSaveGlobal }
       >
         Adicionar despesa
