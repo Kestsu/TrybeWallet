@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { moneyType, expensesType } from '../actions/index';
 import TypeCoin from '../componentes/TypeCoin';
+import Tabela from '../componentes/Tabela';
 
 class Wallet extends React.Component {
   state = {
@@ -14,6 +15,7 @@ class Wallet extends React.Component {
     tag: 'Alimentação',
     total: 0,
     despesas: [],
+    button: true,
   }
 
   componentDidMount() {
@@ -47,20 +49,12 @@ handleSaveGlobal = async () => {
 
 handleTotal = () => {
   const { expenses } = this.props;
-  // console.log(expenses[0].currency);
-  // const { exchangeRates, currency } = expenses;
-  // const transformado = Object.keys(exchangeRates);
-
   const valores = expenses.map((item) => (
     parseFloat(item.exchangeRates[item.currency].ask) * item.value
   ));
   this.setState({
     despesas: valores,
   }, () => this.handleSoma());
-
-  // console.log(valores);
-  // console.log('currency', currency);
-  // console.log('ex', exchangeRates);
 }
 
 handleSoma = () => {
@@ -76,12 +70,25 @@ handleChange = ({ target }) => {
   const { value, name } = target;
   this.setState({
     [name]: value,
+  }, () => this.handleButton());
+}
+
+handleButton = () => {
+  const { description, value } = this.state;
+  console.log(description.length);
+  console.log(parseFloat(value));
+  if (description.length !== 0 && value !== '0') {
+    this.setState({
+      button: false,
+    });
+  } this.setState({
+    button: true,
   });
 }
 
 render() {
-  const { total, value, description, method, tag } = this.state;
-  const { currencies, email } = this.props;
+  const { total, value, description, method, tag, button } = this.state;
+  const { currencies, email, expenses } = this.props;
   return (
     <div>
       <h1>TrybeWallet</h1>
@@ -163,18 +170,40 @@ render() {
         </select>
       </label>
       <br />
-      <button type="button" onClick={ this.handleSaveGlobal }>Adicionar despesa</button>
-      <div>
-        <th>Descrição</th>
-        <th>Tag</th>
-        <th>Método de pagamento</th>
-        <th>Valor</th>
-        <th>Moeda</th>
-        <th>Câmbio utilizado</th>
-        <th>Valor convertido</th>
-        <th>Moeda de conversão</th>
-        <th>Editar/Excluir</th>
-      </div>
+      <button
+        type="button"
+        disabled={ button }
+        onClick={ this.handleSaveGlobal }
+      >
+        Adicionar despesa
+
+      </button>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            expenses.map((item) => (
+              <Tabela
+                key={ item.id }
+                info={ item }
+              />
+            ))
+          }
+
+        </tbody>
+      </table>
     </div>
   );
 }
